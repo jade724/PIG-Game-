@@ -1,0 +1,91 @@
+#Program Description: Dice rolling game. User rolls the dice until they get a one, until the next person 
+# gets to go.It shows the player their current score with every roll and shows the winner and their score after every player has gone.
+# 
+# Date: 27th August 2024
+# Author: Precious Omotayo #
+
+
+
+
+#to generate a random number 
+import random
+
+#defining a roll function - reusable block of code
+def roll(): 
+    min_value = 1
+    max_value = 6
+    roll = random.randint(min_value, max_value)
+
+    return roll
+
+
+#value = roll()
+#for i in range(1):
+#print(value)
+
+while True: 
+    players = input("Enter a number of players (1-4): ")
+    #isdigit is going to tell if it is a digi or not
+    if players.isdigit():
+        #converts whats going to be string here into an integer 
+        #(to check if its a number first because if a string is converted into an int and 
+        # it is not valid int, it will give an integer) 
+        players = int(players)
+        if 2 <= players <= 4:
+            break
+        else:
+            print("Must be between 2 - 4 players. ")
+            
+    else:
+        print("Invalid, try again. ")
+    
+max_score = 20
+    
+#contains all the individual player scores 
+#list comprehention that puts a 0 inside of the list for every single player we have 
+#range function loops the number of players times that we have 
+#each players scores are stored in the array
+player_scores =[0 for _ in range(players)]
+
+
+# player terms
+
+while max(player_scores) < max_score:
+
+    for player_indx in range(players):
+        print("\nPlayer number", player_indx + 1, " turn has just started")
+        print("You total score is: ", player_scores[player_indx], "\n")
+        current_score = 0
+
+        while True:
+            should_roll = input("\nWould you like to roll (Y)? ")
+            #checks if its upper or lower case and puts it to lower
+            if should_roll.lower() == "y˜":
+                value = roll()
+                break
+
+            value = roll()
+            if value  == 1:
+                print("You rolled a 1! Turn Done!\n")
+                current_score = 0
+                break 
+            if current_score >= max_score:
+                print("\nYou have reached the max score. Turn Over!!\n")
+                break
+
+            else:
+                current_score += value 
+                print("You rolled a: ", value)
+
+            print("Your score is: ", current_score)
+
+        player_scores[player_indx] += current_score
+        print( "Your current score is: ", player_scores[player_indx])
+
+
+max_score = max(player_scores)
+winning_idx = player_scores.index(max_score)
+print("\nPlayer number ", winning_idx + 1, "is the winner with a score of: ", max_score)
+
+
+
